@@ -1,8 +1,14 @@
 name: GitHub Actions Demo
 on: [push]
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   Explore-GitHub-Actions:
     runs-on: self-hosted
+    concurrency: 
+      group: ${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Pwd
         run: pwd
