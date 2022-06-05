@@ -1,0 +1,16 @@
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: self-hosted
+    steps:
+      - name: Pwd
+        run: pwd
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Show current head
+        run: git rev-parse HEAD
+      - name: Install project dependencies
+        run: go mod tidy
+      - name: Test
+        run: go test
