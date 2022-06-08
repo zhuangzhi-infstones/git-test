@@ -14,8 +14,8 @@ jobs:
         run: pwd
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Sleep 300
-        run: sleep 300
+      - name: Sleep 5
+        run: sleep 5
       - name: Show current head
         run: git rev-parse HEAD
       - name: Install project dependencies
