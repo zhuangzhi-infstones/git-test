@@ -11,7 +11,8 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: Pwd
-        run: pwd
+        if: ${{ github.base_ref != 'master' }}
+        run: pwd && exit 0
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Sleep 5
