@@ -1,5 +1,5 @@
 name: GitHub Actions Demo
-on: [push]
+on: [push, pull_request]
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -11,8 +11,14 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: Pwd
-        if: ${{ github.base_ref != 'master' }}
-        run: pwd && exit 0
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        if: github.base_ref != 'master' 
+        run: |
+          pwd 
+          echo "base_ref: $GITHUB_BASE_REF"
+          echo "head_ref: $GITHUB_REF"
+          echo "$GITHUB_CONTEXT"
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Sleep 5
