@@ -1,0 +1,27 @@
+name: GitHub Actions Demo
+on: [pull_request]
+concurrency: 
+  group: ${{ github.head_ref }}-${{ github.base_ref }}
+  cancel-in-progress: true
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: self-hosted
+    steps:
+      - name: Show all context env
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          pwd 
+          echo "base_ref: $GITHUB_BASE_REF"
+          echo "head_ref: $GITHUB_HEAD_REF"
+          echo "$GITHUB_CONTEXT"
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Show current head
+        run: git rev-parse HEAD
+      - name: Install project dependencies
+        if: github.base_ref == 'master'
+        run: go mod tidy
+      - name: Test
+        if: github.base_ref == 'master'
+        run: go test
